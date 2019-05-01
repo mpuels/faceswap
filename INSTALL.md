@@ -95,6 +95,12 @@ python setup.py
 ```
 If setup fails for any reason you can still manually install the packages listed within requirements.txt
 
+You can also run
+
+    make venv
+
+to set up a virtual environment. It will be created in the directory `venv/`.
+
 ### About some of the options
    - CUDA: For acceleration. Requires a good nVidia Graphics Card (which supports CUDA inside)
    - Docker: Provide a ready-made image. Hide trivial details. Get you straight to the project.
