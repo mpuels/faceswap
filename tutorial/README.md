@@ -20,6 +20,7 @@ with an IDE (e.g. PyCharm):
 On an DLAMI on AWS, activate a Python environment that has support for
 TensorFlow and then install the packages from `requirements.txt`:
 
+    $ source activate tensorflow_p36
     $ pushd ..
-    $ source …
     $ pip install -r requirements.txt
+    $ popd
