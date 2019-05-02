@@ -1,5 +1,6 @@
 *.ini
 *.log*
 *.pyc
+*.swp
 __pycache__/
 venv/
