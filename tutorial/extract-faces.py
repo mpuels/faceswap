@@ -17,6 +17,7 @@ def main():
         img_dir = DATA_DIR / "img" / name
         face_dir = DATA_DIR / "face" / name
         subprocess.run(["python", "../faceswap.py", "extract",
+                        "-mp",
                         "-i", str(img_dir),
                         "-o", str(face_dir)])
 
