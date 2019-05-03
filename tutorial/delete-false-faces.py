@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 
-import glob
-from pathlib import Path
+from config import FACE_DIR
 
-FACES_DIR = Path("~/data/face").expanduser()
 FALSE_FACES_TXT = "false-faces.txt"
 
 
 def main():
     png_name_to_path = {}
-    for png in FACES_DIR.glob('**/*.png'):
+    for png in FACE_DIR.glob('**/*.png'):
         png_name_to_path[png.name] = png
 
     with open(FALSE_FACES_TXT) as f:
