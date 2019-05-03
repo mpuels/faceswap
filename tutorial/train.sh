@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DATA_DIR=~/data
+. config.sh
 
 NAME_A=trump
 NAME_B=marcpuels

@@ -4,7 +4,8 @@ set -euo pipefail
 
 pushd ..
 
-DATA_DIR=~/data
+. config.sh
+
 FACE_TO_REPLACE=trumpsample
 FACE_TO_INSERT=marcpuels2
 
