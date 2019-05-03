@@ -16,6 +16,19 @@ from convert_tasks import CONVERT_TASKS
              "flag")
 )
 def main(convert_task_name, dry_run):
+    """Run a convert task
+
+    A task consists of
+
+        * name
+        * img_dir
+        * model
+        * convert_args
+
+    That translates to the following execution:
+
+        python faceswap.py convert -i ~/data/img/<img_dir> ~o ~/data/swaps/<name> -m ~/data/models/<model> <convert_args>
+    """
     if convert_task_name == "list":
         for task_name, task in CONVERT_TASKS.items():
             print(task_name, task)
