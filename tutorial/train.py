@@ -40,14 +40,19 @@ def main(train_task_name, dry_run):
         return 1
 
     task = TRAIN_TASKS[train_task_name]
+
+    model_dir = MODEL_DIR / train_task_name
+
     cmd = ["python", "../faceswap.py", "train",
            "-A", str(FACE_DIR / task.face_a),
            "-B", str(FACE_DIR / task.face_b),
-           "-m", str(MODEL_DIR / train_task_name)] + task.train_args
+           "-m", str(model_dir)] + task.train_args
+
     if dry_run:
         print(cmd)
         return 0
 
+    model_dir.mkdir(parents=True, exist_ok=True)
     subprocess.run(cmd)
 
 
