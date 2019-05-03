@@ -2,9 +2,9 @@
 
 set -euo pipefail
 
-sudo apt install cmake ffmpeg
+sudo apt install -y cmake ffmpeg
 
 # Oddly we have to remove and re-install cmake. Otherwise the command 'cmake'
 # is not available on the command line.
-sudo apt remove cmake
-sudo apt install cmake
+sudo apt remove -y cmake
+sudo apt install -y cmake
