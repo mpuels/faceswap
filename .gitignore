@@ -1,7 +1,7 @@
 *.ini
+training_preview.jpg
 *.log*
 *.pyc
 *.swp
 __pycache__/
 venv/
-
