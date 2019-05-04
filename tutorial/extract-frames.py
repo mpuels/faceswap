@@ -6,6 +6,7 @@ from config import IMG_DIR, VIDEO_DIR
 
 NAMES = [
     "cage",
+    "janboehmermann",
     "marcpuels",
     "trump",
 ]

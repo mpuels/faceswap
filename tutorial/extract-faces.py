@@ -6,6 +6,7 @@ from config import FACE_DIR, IMG_DIR
 
 NAMES = [
     "cage",
+    "janboehmermann",
     "marcpuels",
     "trump",
 ]
