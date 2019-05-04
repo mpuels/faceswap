@@ -8,7 +8,11 @@ class TrainTask(NamedTuple):
 
 
 TRAIN_TASKS = {
-    "trump-marcpuels": TrainTask("trump",
-                                 "marcpuels",
-                                 ["--batch-size", "128"])
+    "trump-marcpuels": TrainTask(
+        "trump",
+        "marcpuels",
+        [
+            "--batch-size", "128",
+            "--write-image",
+        ])
 }
