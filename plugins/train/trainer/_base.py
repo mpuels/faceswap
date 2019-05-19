@@ -62,8 +62,8 @@ class TrainerBase():
         self.samples = Samples(self.model,
                                self.use_mask,
                                self.model.training_opts["coverage_ratio"],
-                               self.model.training_opts["preview_scaling"],
-                               batch_size)
+                               batch_size,
+                               scaling=self.model.training_opts["preview_scaling"])
         self.timelapse = Timelapse(self.model,
                                    self.use_mask,
                                    self.model.training_opts["coverage_ratio"],
