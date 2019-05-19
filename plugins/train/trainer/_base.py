@@ -19,13 +19,13 @@
         pingpong:           Train each side seperately per save iteration rather than together
 """
 
+import datetime as dt
 import logging
 import os
 import time
 
 import cv2
 import numpy as np
-
 from tensorflow import keras as tf_keras
 
 from lib.alignments import Alignments
@@ -62,11 +62,13 @@ class TrainerBase():
         self.samples = Samples(self.model,
                                self.use_mask,
                                self.model.training_opts["coverage_ratio"],
-                               self.model.training_opts["preview_scaling"])
+                               self.model.training_opts["preview_scaling"],
+                               batch_size)
         self.timelapse = Timelapse(self.model,
                                    self.use_mask,
                                    self.model.training_opts["coverage_ratio"],
-                                   self.batchers)
+                                   self.batchers,
+                                   batch_size)
         logger.debug("Initialized %s", self.__class__.__name__)
 
     @property
@@ -294,16 +296,29 @@ class Batcher():
         logger.debug("Set timelapse feed")
 
 
+def utc_now() -> dt.datetime:
+    return dt.datetime.utcnow()
+
+
 class Samples():
     """ Display samples for preview and timelapse """
-    def __init__(self, model, use_mask, coverage_ratio, scaling=1.0):
+
+    def __init__(self,
+                 model,
+                 use_mask,
+                 coverage_ratio,
+                 batch_size,
+                 scaling=1.0,
+                 func_utc_now=utc_now):
         logger.debug("Initializing %s: model: '%s', use_mask: %s, coverage_ratio: %s)",
                      self.__class__.__name__, model, use_mask, coverage_ratio)
         self.model = model
         self.use_mask = use_mask
         self.images = dict()
         self.coverage_ratio = coverage_ratio
+        self._batch_size = batch_size
         self.scaling = scaling
+        self._func_utc_now = func_utc_now
         logger.debug("Initialized %s", self.__class__.__name__)
 
     def show_sample(self):
@@ -346,10 +361,11 @@ class Samples():
 
         header = np.concatenate([headers["a"], headers["b"]], axis=1)
         figure = np.concatenate([figures["a"], figures["b"]], axis=0)
+        footer = self.get_footer(header.shape)
         height = int(figure.shape[0] / width)
         figure = figure.reshape((width, height) + figure.shape[1:])
         figure = stack_images(figure)
-        figure = np.vstack((header, figure))
+        figure = np.vstack((header, figure, footer))
 
         logger.debug("Compiled sample")
         return np.clip(figure * 255, 0, 255).astype('uint8')
@@ -509,6 +525,44 @@ class Samples():
         logger.debug("header_box.shape: %s", header_box.shape)
         return header_box
 
+    def get_footer(self, shape: tuple) -> np.ndarray:
+        """Render footer for training preview.
+
+        The footer contains the following information:
+
+        - current timestamp in UTC
+        - model name
+        - batch size
+        - number of training iterations
+
+        :param shape: Shape of the footer, e.g. (100, 500, 3).
+        :return: Image of shape `shape`.
+        """
+        utc_now_str = self._func_utc_now().strftime("%Y-%m-%d %H:%M UTC")
+        text = (f"{utc_now_str} "
+                f"[model {self.model.name}] "
+                f"[batch size {self._batch_size}] "
+                f"[#{self.model.iterations}]")
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        text_size = cv2.getTextSize(text,  # pylint: disable=no-member
+                                    font,
+                                    self.scaling,
+                                    1)[0]
+
+        text_y = int((shape[0] + text_size[1]) / 2)
+        text_x = 5
+
+        footer = np.ones(shape, np.float32)
+        cv2.putText(footer,  # pylint: disable=no-member
+                    text,
+                    (text_x, text_y),
+                    font,
+                    self.scaling,
+                    (0, 0, 0),
+                    1,
+                    lineType=cv2.LINE_AA)  # pylint: disable=no-member
+        return footer
+
     @staticmethod
     def duplicate_headers(headers, columns):
         """ Duplicate headers for the number of columns displayed """
@@ -521,11 +575,12 @@ class Samples():
 
 class Timelapse():
     """ Create the timelapse """
-    def __init__(self, model, use_mask, coverage_ratio, batchers):
+
+    def __init__(self, model, use_mask, coverage_ratio, batchers, batch_size):
         logger.debug("Initializing %s: model: %s, use_mask: %s, coverage_ratio: %s, "
                      "batchers: '%s')", self.__class__.__name__, model, use_mask,
                      coverage_ratio, batchers)
-        self.samples = Samples(model, use_mask, coverage_ratio)
+        self.samples = Samples(model, use_mask, coverage_ratio, batch_size)
         self.model = model
         self.batchers = batchers
         self.output_file = None
