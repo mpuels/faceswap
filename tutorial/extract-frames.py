@@ -23,13 +23,15 @@ class ExtractFramesJob(NamedTuple):
 )
 def main(name, dry_run):
     datasets = get_extract_frames_jobs()
-    if name not in datasets:
-        print("Error: Dataset '{}' not found in '{}'".format(name, VIDEO_DIR))
-        return 1
+
     if name == 'list':
         for name, extract_frames_job in datasets.items():
             print(name, extract_frames_job)
         return
+
+    if name not in datasets:
+        print("Error: Dataset '{}' not found in '{}'".format(name, VIDEO_DIR))
+        return 1
 
     if name == 'all':
         extract_frames_jobs_to_execute = datasets.values()
