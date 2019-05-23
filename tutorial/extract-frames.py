@@ -25,8 +25,10 @@ def main(name, dry_run):
     datasets = get_extract_frames_jobs()
 
     if name == 'list':
-        for name, extract_frames_job in datasets.items():
-            print(name, extract_frames_job)
+        for name in sorted(datasets):
+            print(name)
+            print(f'    {datasets[name].src}')
+            print(f'    {datasets[name].dst}')
         return
 
     if name not in datasets:
