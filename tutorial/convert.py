@@ -4,7 +4,7 @@ import subprocess
 
 import plac
 
-from config import IMG_DIR, MODEL_DIR, SWAPS_DIR
+from config import SWAPS_DIR
 from convert_tasks import CONVERT_TASKS
 
 
@@ -30,8 +30,10 @@ def main(convert_task_name, dry_run):
         python faceswap.py convert -i ~/data/img/<img_dir> ~o ~/data/swaps/<name> -m ~/data/models/<model> <convert_args>
     """
     if convert_task_name == "list":
-        for task_name, task in CONVERT_TASKS.items():
-            print(task_name, task)
+        for task_name in sorted(CONVERT_TASKS):
+            print(task_name)
+            for convert_arg in CONVERT_TASKS[task_name].convert_args:
+                print(f'    {convert_arg}')
         return 0
 
     if convert_task_name not in CONVERT_TASKS:
@@ -44,9 +46,7 @@ def main(convert_task_name, dry_run):
     swaps_dir = SWAPS_DIR / convert_task_name
 
     cmd = ["python", "../faceswap.py", "convert",
-           "-i", str(IMG_DIR / task.img_dir),
-           "-o", str(swaps_dir),
-           "-m", str(MODEL_DIR / task.model)] + task.convert_args
+           "-o", swaps_dir] + task.convert_args
 
     if dry_run:
         print(cmd)
