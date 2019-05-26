@@ -18,6 +18,15 @@ CONVERT_TASKS = {
             "--model", MODEL_DIR / "marcpuels-janboehmermann",
             # "--singleprocess",
         ]),
+    "marcpuels-distances-480"                   : ConvertTask(
+        [
+            '--input-dir', IMG_DIR / "marcpuels-distances-480",
+            '--reference-video', VIDEO_DIR / "marcpuels-distances-480" / 'marcpuels-distances-480.mpg',
+            '--alignments', IMG_DIR / "marcpuels-distances-480" / 'alignments.json',
+            '--model', MODEL_DIR / "marcpuels-janboehmermann_villain",
+            '--writer', 'ffmpeg'
+        ]
+    ),
     "marcpuelssample-001-video"                 : ConvertTask(
         [
             "--input-dir", IMG_DIR / "marcpuels-sample",
