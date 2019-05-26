@@ -10,14 +10,14 @@ class TrainTask(NamedTuple):
 
 
 TRAIN_TASKS = {
-    "trump-marcpuels"                 : TrainTask(
+    "trump-marcpuels"                              : TrainTask(
         "trump",
         "marcpuels",
         [
             "--batch-size", "128",
             "--write-image",
         ]),
-    "marcpuels-janboehmermann"        : TrainTask(
+    "marcpuels-janboehmermann"                     : TrainTask(
         "marcpuels",
         "janboehmermann",
         [
@@ -29,12 +29,23 @@ TRAIN_TASKS = {
             "--write-image",
         ]
     ),
-    "marcpuels-janboehmermann_villain": TrainTask(
+    "marcpuels-janboehmermann_villain"             : TrainTask(
         "marcpuels",
         "janboehmermann",
         [
             "--trainer", "villain",
             "--alignments-A", str(IMG_DIR / "marcpuels" / "alignments.json"),
+            "--alignments-B", str(IMG_DIR / "janboehmermann" / "alignments.json"),
+            "--batch-size", "8",
+            "--write-image",
+        ]
+    ),
+    "marcpuels-janboehmermann_villain_fit_distance": TrainTask(
+        "marcpuels-distances-cut-1080-clean",
+        "janboehmermann",
+        [
+            "--trainer", "villain",
+            "--alignments-A", str(IMG_DIR / "marcpuels-distances-cut-1080" / "alignments.json"),
             "--alignments-B", str(IMG_DIR / "janboehmermann" / "alignments.json"),
             "--batch-size", "8",
             "--write-image",
