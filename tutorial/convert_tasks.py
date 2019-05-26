@@ -27,6 +27,15 @@ CONVERT_TASKS = {
             '--writer', 'ffmpeg'
         ]
     ),
+    "marcpuels-distances-cut-1080"              : ConvertTask(
+        [
+            '--input-dir', IMG_DIR / "marcpuels-distances-cut-1080",
+            '--reference-video', VIDEO_DIR / "marcpuels-distances-cut-1080" / 'marcpuels-distances-cut-1080.mpg',
+            '--alignments', IMG_DIR / "marcpuels-distances-cut-1080" / 'alignments.json',
+            '--model', MODEL_DIR / "marcpuels-janboehmermann_villain",
+            '--writer', 'ffmpeg'
+        ]
+    ),
     "marcpuelssample-001-video"                 : ConvertTask(
         [
             "--input-dir", IMG_DIR / "marcpuels-sample",
