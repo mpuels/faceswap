@@ -5,7 +5,7 @@ import subprocess
 import plac
 
 from config import FACE_DIR, MODEL_DIR
-from train_tasks import TRAIN_TASKS
+from train_tasks import TRAIN_TASKS, TrainTask
 
 
 @plac.annotations(
@@ -30,8 +30,8 @@ def main(train_task_name, dry_run):
         python faceswap.py train -A ~/data/face/<face_a> -B ~/data/face/<face_b> -m ~/data/models/<name> <train_args>
     """
     if train_task_name == "list":
-        for task_name, task in TRAIN_TASKS.items():
-            print(task_name, task)
+        for task_name in sorted(TRAIN_TASKS):
+            print_train_task(task_name, TRAIN_TASKS[task_name])
         return 0
 
     if train_task_name not in TRAIN_TASKS:
@@ -54,6 +54,14 @@ def main(train_task_name, dry_run):
 
     model_dir.mkdir(parents=True, exist_ok=True)
     subprocess.run(cmd)
+
+
+def print_train_task(task_name: str, train_task: TrainTask):
+    print(task_name)
+    print(f'    {train_task.face_a}')
+    print(f'    {train_task.face_b}')
+    for train_arg in train_task.train_args:
+        print(f'    {train_arg}')
 
 
 if __name__ == "__main__":
