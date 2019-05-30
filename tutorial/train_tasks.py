@@ -63,7 +63,7 @@ TRAIN_TASKS = {
         ]
     ),
     "marcpuels-janboehmermann_villain_fit_baseball2": TrainTask(
-        "marcpuels-baseballcap-1080-cut",
+        "marcpuels-baseballcap-1080-cut2",
         "janboehmermann",
         [
             "--trainer", "villain",

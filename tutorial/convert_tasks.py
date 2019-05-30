@@ -59,7 +59,7 @@ CONVERT_TASKS = {
             '--input-dir', IMG_DIR / "marcpuels-baseballcap-1080-cut2",
             '--reference-video', VIDEO_DIR / "marcpuels-baseballcap-1080-cut2" / 'marcpuels-baseballcap-1080-cut2.mp4',
             '--alignments', IMG_DIR / "marcpuels-baseballcap-1080-cut2" / 'alignments.json',
-            '--model', MODEL_DIR / "marcpuels-janboehmermann_villain_fit_baseball",
+            '--model', MODEL_DIR / "marcpuels-janboehmermann_villain_fit_baseball2",
             '--writer', 'ffmpeg'
         ]
     ),
