@@ -63,6 +63,15 @@ CONVERT_TASKS = {
             '--writer', 'ffmpeg'
         ]
     ),
+    "marcpuels-baseballcap-1080-cut3"           : ConvertTask(
+        [
+            '--input-dir', IMG_DIR / "marcpuels-baseballcap-1080-cut3",
+            '--reference-video', VIDEO_DIR / "marcpuels-baseballcap-1080-cut3" / 'marcpuels-baseballcap-1080-cut3.mp4',
+            '--alignments', IMG_DIR / "marcpuels-baseballcap-1080-cut3" / 'alignments.json',
+            '--model', MODEL_DIR / "marcpuels-janboehmermann_villain_fit_baseball3",
+            '--writer', 'ffmpeg'
+        ]
+    ),
     "marcpuelssample-001-video"                 : ConvertTask(
         [
             "--input-dir", IMG_DIR / "marcpuels-sample",
