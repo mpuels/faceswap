@@ -73,4 +73,15 @@ TRAIN_TASKS = {
             "--write-image",
         ]
     ),
+    "marcpuels-janboehmermann_villain_fit_baseball3": TrainTask(
+        "marcpuels-baseballcap-1080-cut3",
+        "janboehmermann",
+        [
+            "--trainer", "villain",
+            "--alignments-A", str(IMG_DIR / "marcpuels-baseballcap-1080-cut3" / "alignments.json"),
+            "--alignments-B", str(IMG_DIR / "janboehmermann" / "alignments.json"),
+            "--batch-size", "8",
+            "--write-image",
+        ]
+    ),
 }
